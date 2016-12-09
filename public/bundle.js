@@ -24162,9 +24162,13 @@
 	
 	var _stories2 = _interopRequireDefault(_stories);
 	
+	var _login = __webpack_require__(320);
+	
+	var _login2 = _interopRequireDefault(_login);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	exports.default = (0, _redux.combineReducers)({ users: _users2.default, stories: _stories2.default });
+	exports.default = (0, _redux.combineReducers)({ users: _users2.default, stories: _stories2.default, login: _login2.default });
 
 /***/ },
 /* 217 */
@@ -31922,6 +31926,13 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 	
+	    _this.state = {
+	      email: "",
+	      password: ""
+	    };
+	
+	    _this.handleEmailInput = _this.handleEmailInput.bind(_this);
+	    _this.handlePasswordInput = _this.handlePasswordInput.bind(_this);
 	    _this.onLoginSubmit = _this.onLoginSubmit.bind(_this);
 	    return _this;
 	  }
@@ -31949,6 +31960,7 @@
 	                'email'
 	              ),
 	              _react2.default.createElement('input', {
+	                onChange: this.handleEmailInput,
 	                name: 'email',
 	                type: 'email',
 	                className: 'form-control',
@@ -31964,6 +31976,7 @@
 	                'password'
 	              ),
 	              _react2.default.createElement('input', {
+	                onChange: this.handlePasswordInput,
 	                name: 'password',
 	                type: 'password',
 	                className: 'form-control',
@@ -32014,12 +32027,26 @@
 	      );
 	    }
 	  }, {
+	    key: 'handleEmailInput',
+	    value: function handleEmailInput(event) {
+	      var email = event.target.email.value;
+	      this.setState({ email: email });
+	    }
+	  }, {
+	    key: 'handlePasswordInput',
+	    value: function handlePasswordInput(event) {
+	      var password = event.target.password.value;
+	      this.setState({ password: password });
+	    }
+	  }, {
 	    key: 'onLoginSubmit',
 	    value: function onLoginSubmit(event) {
 	      var message = this.props.message;
 	
 	      event.preventDefault();
-	      console.log(message + ' isn\'t implemented yet');
+	      return;
+	
+	      //   console.log(`${message} isn't implemented yet`);
 	    }
 	  }]);
 	
@@ -32031,7 +32058,9 @@
 	var mapState = function mapState() {
 	  return { message: 'Log in' };
 	};
-	var mapDispatch = null;
+	var mapDispatch = function mapDispatch(dispatch) {
+	  return {};
+	};
 	
 	exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(Login);
 
@@ -50384,6 +50413,65 @@
 	
 	exports.default = ContentEditable;
 	module.exports = exports['default'];
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.setCurrentUser = undefined;
+	exports.default = reducer;
+	
+	var _axios = __webpack_require__(218);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* -----------------    ACTION(S)     ------------------ */
+	
+	var SET_CURRENT_USER = 'SET_CURRENT_USER';
+	
+	/* ------------   ACTION CREATOR(S)     ------------------ */
+	//define method that will be called by the dispatcher (with dispatch(method))
+	//that will take a user and returns a new state that sets currentUser...
+	
+	
+	// const init  = users => ({ type: INITIALIZE, users })
+	// const create = user  => ({ type: CREATE, user })
+	// const remove = id    => ({ type: REMOVE, id })
+	// const update = user  => ({ type: UPDATE, user })
+	
+	
+	/* ------------       REDUCER     ------------------ */
+	
+	function reducer() {
+	  var currentUser = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	
+	    case SET_CURRENT_USER:
+	      return currentUser = action.user;
+	
+	    default:
+	      return currentUser;
+	  }
+	}
+	
+	/* ------------       DISPATCHER(S)     ------------------ */
+	
+	var setCurrentUser = exports.setCurrentUser = function setCurrentUser(e) {
+	  return function (dispatch) {
+	    _axios2.default.post('/api/users/login', { email: email, password: password }).then(function (res) {
+	      return dispatch(res.data);
+	    });
+	  };
+	};
 
 /***/ }
 /******/ ]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from'react-redux';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -7,7 +7,13 @@ import { browserHistory } from 'react-router';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      email: "",
+      password: ""
+    }
+
+    this.handleEmailInput = this.handleEmailInput.bind(this);
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
   }
 
@@ -20,19 +26,21 @@ class Login extends React.Component {
                 <div className="form-group">
                   <label>email</label>
                   <input
-                    name="email" 
-                    type="email" 
-                    className="form-control" 
-                    required 
+                    onChange={this.handleEmailInput}
+                    name="email"
+                    type="email"
+                    className="form-control"
+                    required
                   />
                 </div>
                 <div className="form-group">
                     <label>password</label>
-                    <input 
+                    <input
+                      onChange={this.handlePasswordInput}
                       name="password"
-                      type="password" 
-                      className="form-control" 
-                      required 
+                      type="password"
+                      className="form-control"
+                      required
                     />
                 </div>
                 <button type="submit" className="btn btn-block btn-primary">{message}</button>
@@ -57,16 +65,28 @@ class Login extends React.Component {
     );
   }
 
+  handleEmailInput(event) {
+    const email = event.target.email.value;
+    this.setState({email});
+  }
+
+  handlePasswordInput(event) {
+    const password = event.target.password.value;
+    this.setState({password});
+  }
+
   onLoginSubmit(event) {
     const { message } = this.props;
     event.preventDefault();
-    console.log(`${message} isn't implemented yet`);
+    return
+
+  //   console.log(`${message} isn't implemented yet`);
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' })
-const mapDispatch = null
+const mapDispatch = (dispatch) => ({  })
 
 export default connect(mapState, mapDispatch)(Login);

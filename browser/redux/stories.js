@@ -20,8 +20,8 @@ const update = story   => ({ type: UPDATE, story })
 
 export default function reducer (stories = [], action) {
   switch (action.type) {
-    
-    case INITIALIZE: 
+
+    case INITIALIZE:
       return action.stories
 
     case CREATE:
@@ -30,14 +30,14 @@ export default function reducer (stories = [], action) {
     case REMOVE:
       return stories
         .filter(story => story.id !== action.id)
-    
+
     case UPDATE:
       return stories
         .map(story => (
           action.story.id === story.id ? action.story : story
         ))
 
-    default: 
+    default:
       return stories;
   }
 }
@@ -52,7 +52,7 @@ export const fetchStories = () => dispatch => {
 }
 
 // optimistic
-export const removeStory = id => dispatch => { 
+export const removeStory = id => dispatch => {
     dispatch(remove(id))
     axios.delete(`/api/stories/${id}`)
          .catch(err => console.error(`Removing story: ${id} unsuccesful`, err))
