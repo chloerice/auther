@@ -1,19 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { setCurrentUser } from '../redux/login';
 
 /* -----------------    COMPONENT     ------------------ */
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: "",
-      password: ""
-    }
 
-    this.handleEmailInput = this.handleEmailInput.bind(this);
-    this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
   }
 
@@ -65,28 +60,24 @@ class Login extends React.Component {
     );
   }
 
-  handleEmailInput(event) {
-    const email = event.target.email.value;
-    this.setState({email});
-  }
-
-  handlePasswordInput(event) {
-    const password = event.target.password.value;
-    this.setState({password});
-  }
 
   onLoginSubmit(event) {
-    const { message } = this.props;
-    event.preventDefault();
-    return
+    const email = event.target.email.value;
+    const password = event.target.password.value;
 
-  //   console.log(`${message} isn't implemented yet`);
+    event.preventDefault();
+    this.props.logIn(email, password)
+
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' })
-const mapDispatch = (dispatch) => ({  })
+const mapDispatch = (dispatch) => ({
+  logIn: function(email, password) {
+    dispatch(setCurrentUser({email, password}))
+  }
+})
 
 export default connect(mapState, mapDispatch)(Login);

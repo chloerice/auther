@@ -56,20 +56,6 @@ router.delete('/:id', function (req, res, next) {
   .catch(next);
 });
 
-router.post('/login', function (req, res, next) {
 
-  User.findOne({
-    where: req.body
-  }).then(function (user) {
-    if (user) {
-      req.session.user = user;
-      // req.session.cookie.expires = new Date(Date.now() + 60000);
-      req.session.cookie.maxAge = 60000;
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(401);
-    }
-  }).catch(next);
-});
 
 module.exports = router;

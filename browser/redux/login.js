@@ -10,12 +10,7 @@ const SET_CURRENT_USER = 'SET_CURRENT_USER';
 //that will take a user and returns a new state that sets currentUser...
 
 
-
-// const init  = users => ({ type: INITIALIZE, users })
-// const create = user  => ({ type: CREATE, user })
-// const remove = id    => ({ type: REMOVE, id })
-// const update = user  => ({ type: UPDATE, user })
-
+const login = user => ({ type: SET_CURRENT_USER, user })
 
 /* ------------       REDUCER     ------------------ */
 
@@ -32,7 +27,7 @@ export default function reducer (currentUser = {}, action) {
 
 /* ------------       DISPATCHER(S)     ------------------ */
 
-export const setCurrentUser = (e) => dispatch => {
-  axios.post('/api/users/login', {email, password})
-       .then(res => dispatch((res.data)));
+export const setCurrentUser = ({email, password}) => dispatch => {
+  axios.post('/api/login', {email, password})
+       .then(res => dispatch(login({email, password})));
 }
